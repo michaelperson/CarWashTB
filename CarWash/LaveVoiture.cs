@@ -8,10 +8,19 @@ namespace CarWash
 {
     public class LaveVoiture
     {
+
+        public delegate void DelegateAfficherStatus(string Message);
+        public DelegateAfficherStatus SendStatus;
+
+
         //3.2 Préparation du délégué pour exécuter les méthodes de ma classe
         public delegate void DelegateLavage(Voiture v);
         //3.3 Créer une variable du type du délégué créé en 3.2
         private DelegateLavage LaveLaCaisse;
+
+        private string _message;
+
+        public string Message { get => _message;  }
 
         public enum Programme
         {
@@ -47,19 +56,25 @@ namespace CarWash
 
         private void Preparer(Voiture v)
         {
-            Console.WriteLine($"Je prépare la voiture {v.Plaque}");
+            if(SendStatus!=null)
+            SendStatus($"Je prépare la voiture {v.Plaque}");
+          //this._message = $"Je prépare la voiture {v.Plaque}";
+            //Console.WriteLine();
         }
         private void Laver(Voiture v)
         {
-            Console.WriteLine($"Je lave la voiture {v.Plaque}");
+            if (SendStatus != null)
+                SendStatus($"Je lave la voiture {v.Plaque}");
         }
         private void Secher(Voiture v)
         {
-            Console.WriteLine($"Je sèche la voiture {v.Plaque}");
+            if (SendStatus != null)
+                SendStatus($"Je sèche la voiture {v.Plaque}");
         }
         private void Finaliser (Voiture v)
         {
-            Console.WriteLine($"Je finalise la voiture {v.Plaque}");
+            if (SendStatus != null)
+                SendStatus($"Je finalise la voiture {v.Plaque}");
         }
 
         public void Traiter(Voiture v)
